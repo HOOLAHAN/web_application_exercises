@@ -10,7 +10,7 @@ describe Application do
     it 'returns 200 OK' do
       response = get('/hello?name=Iain')
       expect(response.status).to eq(200)
-      expect(response.body).to eq("Hello Iain")
+      expect(response.body).to eq("Hello Iain!")
     end
     it 'returns 404 Not Found' do
       response = get('/goodbye')
@@ -39,6 +39,13 @@ describe Application do
       response = post('/sort-names', names: "Joe,Alice,Zoe,Julia,Kieran")
       expect(response.status).to eq(200)
       expect(response.body).to eq("Alice,Joe,Julia,Kieran,Zoe")
+    end
+  end
+
+  context 'GET /' do
+    it 'returns a greeting message as an HTML page' do
+    response = get('/', name: 'Iain')
+    expect(response.body).to include('<h1>Hello Iain!</h1>')
     end
   end
 end
