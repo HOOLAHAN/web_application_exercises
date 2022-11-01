@@ -51,4 +51,14 @@ describe Application do
       expect(response.body).to include ('Wild nothing')
     end
   end
+
+  context 'GET /albums/:id' do
+    it 'should return the HTML content for a single album (2)' do
+      response = get('/albums/2')
+      expect(response.status).to eq (200)
+      expect(response.body).to include('<h1>Surfer Rosa</h1>')
+      expect(response.body).to include('Release year: 1988')
+      expect(response.body).to include('Artist: Pixies')
+    end
+  end
 end
