@@ -19,7 +19,16 @@ describe Application do
       expect(response.body).to include ('<a href="/albums/5">Bossanova</a><br />')
     end
   end
-  
+
+  context 'GET /albums/new' do
+    it 'returns the form page for creating a new album' do
+      response = get('/albums/new')
+      expect(response.status).to eq (200)
+      expect(response.body).to include('<form method="POST" action="/albums">')
+    end
+  end
+
+
   context 'GET /albums/:id' do
     it 'should return the HTML content for a single album (2)' do
       response = get('/albums/2')
@@ -37,9 +46,19 @@ describe Application do
       release_year: '2022',
       artist_id: '2')
       expect(response.status).to eq(200)
-      expect(response.body).to eq('')
+      expect(response.body).to eq('New album created')
       response = get('/albums')
       expect(response.body).to include('Voyage')
+    end
+  end
+
+  context "POST /albums" do
+    it 'should validate album parameters' do
+      response = post('/albums', 
+      invalid_artist_title: 'Ok computer', 
+      invalid_release_year: '123',
+      invalid_album_artist_id: '12')
+      expect(response.status).to eq (400)
     end
   end
 
