@@ -12,14 +12,24 @@ describe Application do
   context "GET /albums" do
     it "should return the HTML content containing a list of albums" do
       response = get('/albums')
-      expect(response.status).to eq(200)
-      expect(response.body).to include ('<h1>Albums</h1>')
-      expect(response.body).to include ('Title: Surfer Rosa')
-      expect(response.body).to include ('Released: 1988')
-      expect(response.body).to include ('Super Trouper')
-      expect(response.body).to include ('1980')
+      expect(response.status).to eq (200)
+      expect(response.body).to include ('<a href="/albums/2">Surfer Rosa</a><br />')
+      expect(response.body).to include ('<a href="/albums/3">Waterloo</a><br />')
+      expect(response.body).to include ('<a href="/albums/4">Super Trouper</a><br />')
+      expect(response.body).to include ('<a href="/albums/5">Bossanova</a><br />')
     end
   end
+  
+  context 'GET /albums/:id' do
+    it 'should return the HTML content for a single album (2)' do
+      response = get('/albums/2')
+      expect(response.status).to eq (200)
+      expect(response.body).to include('<h1>Surfer Rosa</h1>')
+      expect(response.body).to include('Release year: 1988')
+      expect(response.body).to include('Artist: Pixies')
+    end
+  end
+
   context "POST /albums" do
     it 'should create a new album' do
       response = post('/albums',
@@ -36,9 +46,19 @@ describe Application do
   context "GET /artists" do 
     it "should return a list of artists" do
       response = get('/artists')
-      expected_response = "Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos"
       expect(response.status).to eq(200)
-      expect(response.body).to eq expected_response
+      expect(response.body).to include ('<a href="/artists/1">Pixies</a><br />')
+      expect(response.body).to include ('<a href="/artists/2">ABBA</a><br />')
+      expect(response.body).to include ('<a href="/artists/3">Taylor Swift</a><br />')
+    end
+  end
+
+  context "GET /artists/:id" do
+    it "returns an HTML page showing details for a single artist" do
+      response = get('/artists/1')
+      expect(response.status).to eq (200)
+      expect(response.body).to include('<h1>Pixies</h1>')
+      expect(response.body).to include('Genre: Rock')
     end
   end
 
@@ -54,13 +74,4 @@ describe Application do
     end
   end
 
-  context 'GET /albums/:id' do
-    it 'should return the HTML content for a single album (2)' do
-      response = get('/albums/2')
-      expect(response.status).to eq (200)
-      expect(response.body).to include('<h1>Surfer Rosa</h1>')
-      expect(response.body).to include('Release year: 1988')
-      expect(response.body).to include('Artist: Pixies')
-    end
-  end
 end
