@@ -6,7 +6,11 @@
   </head>
   <body>
     <p>
+    <% if @name.include?('href' || 'https') %>
+      You shall not PASS!!!
+    <% else %>
       Hi <%= @name %>!
+    <% end %>
     </p>
   </body>
 </html>

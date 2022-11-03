@@ -12,7 +12,10 @@ class Application < Sinatra::Base
 
   post '/hello' do
     @name = params[:name]
-
-    return erb(:hello)
+    if @name.include?('href' || 'https')
+      return "You shall not PASS!!!" 
+    else
+      return erb(:hello)
+    end
   end
 end
