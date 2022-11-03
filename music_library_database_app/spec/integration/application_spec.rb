@@ -28,7 +28,6 @@ describe Application do
     end
   end
 
-
   context 'GET /albums/:id' do
     it 'should return the HTML content for a single album (2)' do
       response = get('/albums/2')
@@ -72,6 +71,14 @@ describe Application do
     end
   end
 
+  context "GET /artists/new" do
+    it 'returns the form page for creating a new artists' do
+      response = get('/artists/new')
+      expect(response.status).to eq (200)
+      expect(response.body).to include('<form action="/artists" method="POST">')
+    end
+  end
+
   context "GET /artists/:id" do
     it "returns an HTML page showing details for a single artist" do
       response = get('/artists/1')
@@ -87,7 +94,7 @@ describe Application do
       name: 'Wild nothing',
       genre: 'Indie')
       expect(response.status).to eq (200)
-      expect(response.body).to eq('')
+      expect(response.body).to eq('New artist created')
       response = get('/artists')
       expect(response.body).to include ('Wild nothing')
     end
